@@ -154,6 +154,36 @@ def _future_index(train: pd.Series, horizon: int) -> pd.DatetimeIndex:
     return pd.date_range(train.index[-1], periods=horizon + 1, freq="MS")[1:]
 
 
+def forecast_cover(build, train: pd.Series, target_index) -> pd.Series:
+    """Forecast from `train` and return values aligned to `target_index`.
+
+    Guards against a mistake that is easy to make and hard to see: forecasting
+    a fixed number of steps and then scoring it against a window that does not
+    start where the forecast starts. If `train` ends in July 2020 and the
+    target is calendar 2021, a 12-step forecast covers Aug 2020 - Jul 2021, and
+    comparing those twelve numbers to Jan - Dec 2021 compares the wrong months
+    while still producing a plausible-looking error figure.
+
+    Raises rather than returning a partial or misaligned series.
+    """
+    target_index = pd.DatetimeIndex(target_index)
+    if len(target_index) == 0:
+        raise ValueError("forecast_cover: target_index is empty")
+    first_step = train.index[-1] + pd.offsets.MonthBegin(1)
+    required = len(pd.date_range(first_step, target_index[-1], freq="MS"))
+    if required <= 0:
+        raise ValueError(
+            f"forecast_cover: target ends {target_index[-1].date()} which is before "
+            f"the first forecast step {first_step.date()}"
+        )
+    forecast = build(train, required).forecast
+    aligned = forecast.reindex(target_index)
+    if aligned.isna().any():
+        missing = [str(p.date())[:7] for p in aligned[aligned.isna()].index]
+        raise ValueError(f"forecast_cover: no value for {missing}")
+    return aligned
+
+
 def _series(train: pd.Series, horizon: int, values) -> pd.Series:
     return pd.Series(values, index=_future_index(train, horizon), name=train.name)
 

@@ -17,7 +17,7 @@ import pandas as pd
 from src import metrics as M
 from src import plots
 from src.data import load_series
-from src.models import triple_exp_smoothing
+from src.models import forecast_cover, triple_exp_smoothing
 
 RESULTS = pathlib.Path(__file__).resolve().parent.parent / "results"
 RESULTS.mkdir(parents=True, exist_ok=True)
@@ -43,14 +43,19 @@ def main() -> int:
     # Independent re-fit: train on everything up to the end of 2020 and
     # forecast 2021 - the same information the thesis had.
     train = series.loc[:"2020-12"]
-    reproduced = triple_exp_smoothing(train, 12).forecast
+    reproduced = forecast_cover(triple_exp_smoothing, train, actual.index)
 
     # Third experiment: train only up to the last month *before* the
     # Aug-Dec 2020 reporting outage. Isolates how much the forward-fill of
     # those five months dragged the level (and therefore the 2021 forecast)
     # downwards.
+    #
+    # NOTE: forecasting a fixed 12 steps from a 2020-07 origin lands on
+    # Aug 2020 - Jul 2021, which is NOT calendar 2021. `forecast_cover`
+    # extends the horizon as far as the target window needs so the
+    # comparison is month-for-month correct.
     train_preoutage = series.loc[:"2020-07"]
-    reproduced_preoutage = triple_exp_smoothing(train_preoutage, 12).forecast
+    reproduced_preoutage = forecast_cover(triple_exp_smoothing, train_preoutage, actual.index)
 
     variants = {
         "reproduced (train to 2020-12)": reproduced,

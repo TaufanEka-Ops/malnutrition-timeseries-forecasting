@@ -83,18 +83,36 @@ zero.
 | Source | MAE | RMSE | sMAPE % | 95% CI coverage |
 |---|---:|---:|---:|---:|
 | Published (thesis Table 4.3) | 54.99 | 66.21 | 72.68 | 11 / 12 |
+| Reproduced, trained to Jul 2020 | 60.27 | 74.99 | 83.40 | — |
 | Reproduced, trained to Dec 2020 | 65.65 | 81.77 | 91.31 | — |
-| Reproduced, trained to Jul 2020 | 72.17 | 82.69 | 102.49 | — |
 
-**An honest limitation.** The published point forecasts are better than any
-reproduction this repository can produce from the surviving data, and I could
-not close the gap. I tested the obvious explanation — that forward-filling the
-Aug–Dec 2020 reporting outage dragged the level down — and it is wrong: training
-only on pre-outage months makes the result *worse*, not better. Six alternative
-seasonal specifications were tried and none reproduce the published forecast's
-flat, higher trajectory. The published parameters, or a preprocessing step not
-recorded in the surviving files, are the likely cause. It is listed as an open
-item rather than explained away.
+**An honest limitation, and a correction.** The published point forecasts remain
+better than anything this repository reproduces from the surviving data, and the
+gap is not fully closed.
+
+The obvious explanation is that forward-filling the Aug–Dec 2020 reporting
+outage with a flat 26 depresses the level, and that this is what hurts the 2021
+forecast. **That explanation is partly right, and it is measurable here:** the
+five imputed months cost 5.4 MAE points (60.27 → 65.65) and pull the mean
+forecast down from 42.6 to 33.5 admissions, against an actual 2021 mean of
+104.6. An imputation artefact of that size is worth knowing about.
+
+It does not explain the whole gap. The remaining ~5 MAE points between 60.27 and
+the published 54.99 are unaccounted for. Six alternative seasonal specifications
+were tried and none reproduce the published forecast's flatter, higher
+trajectory (mean ~55). The published smoothing parameters, or a preprocessing
+step not preserved in the surviving files, are the likely cause. It is listed as
+an open item rather than explained away.
+
+> **A note on how this number was first reported.** The pre-outage experiment
+> was initially run with a fixed 12-step horizon from a July 2020 origin, which
+> forecasts Aug 2020 – Jul 2021 and then scored it against Jan – Dec 2021: the
+> wrong twelve months, producing a plausible-looking 72.17. The horizon is now
+> derived from the target window by `models.forecast_cover()`, which raises
+> rather than returning a misaligned series, and
+> `tests/test_models.py::test_forecast_cover_aligns_a_short_forecast_to_the_target_window`
+> pins the bug. The corrected value is 60.27 and the conclusion inverts: the
+> imputation hypothesis holds, partially.
 
 All figures above come from `results/` and can be regenerated with `make all`.
 

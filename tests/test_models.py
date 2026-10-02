@@ -3,8 +3,8 @@ import pandas as pd
 import pytest
 
 from src.data import load_series, train_test_split
-from src.models import (DEFAULT_MODELS, ForecastResult, naive, seasonal_naive,
-                        triple_exp_smoothing)
+from src.models import (DEFAULT_MODELS, ForecastResult, forecast_cover, naive,
+                        seasonal_naive, triple_exp_smoothing)
 
 
 @pytest.fixture(scope="module")
@@ -42,3 +42,31 @@ def test_every_registered_model_returns_the_right_horizon(split):
         forecast = factory(train, len(test)).forecast
         assert len(forecast) == len(test), f"{name} returned {len(forecast)} points"
         assert np.isfinite(forecast.to_numpy()).all(), f"{name} produced non-finite values"
+
+
+def test_forecast_cover_aligns_a_short_forecast_to_the_target_window(split):
+    """Regression: a 12-step forecast from a 2020-07 origin is NOT calendar 2021.
+
+    It covers Aug 2020 - Jul 2021. Scoring it against Jan - Dec 2021 compares
+    the wrong months and still returns a believable error number. This test
+    pins the guard that catches it.
+    """
+    series = load_series()
+    train = series.loc[:"2020-07"]
+    target = series.loc["2021-01-01":"2021-12-01"].index
+
+    naive_12 = naive(train, 12).forecast
+    assert naive_12.index[0].month == 8, "the short forecast starts in August"
+    assert naive_12.index[0].year == 2020
+    assert not naive_12.index.equals(target)
+
+    aligned = forecast_cover(naive, train, target)
+    assert list(aligned.index) == list(target)
+    assert aligned.notna().all()
+    assert len(aligned) == 12
+
+
+def test_forecast_cover_refuses_a_target_it_cannot_reach(split):
+    train, _ = split
+    with pytest.raises(ValueError, match="empty"):
+        forecast_cover(naive, train, pd.DatetimeIndex([]))
