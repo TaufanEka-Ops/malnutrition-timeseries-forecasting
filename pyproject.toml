@@ -1,0 +1,16 @@
+[project]
+name = "malnutrition-timeseries-forecasting"
+version = "1.0.0"
+description = "Holt-Winters time series forecasting of hospital malnutrition cases, with backtesting and 2021 out-of-sample validation."
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Taufan Eka Hidayatullah" }]
+keywords = ["time-series", "forecasting", "holt-winters", "healthcare-analytics"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"

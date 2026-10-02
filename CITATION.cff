@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+title: "Malnutrition Case Forecasting - Holt-Winters Time Series Analysis"
+message: "If you reference this work, please cite it as below."
+type: software
+authors:
+  - family-names: Hidayatullah
+    given-names: Taufan Eka
+    affiliation: "University of Darussalam Gontor"
+year: 2023
+license: MIT
+abstract: >-
+  Forecasting monthly malnutrition cases at an East Java hospital using the
+  Holt-Winters triple exponential smoothing family, with SES/DES/TES
+  comparison, walk-forward backtesting and out-of-sample validation against
+  the 2021 actuals. Reproduces and extends an undergraduate thesis
+  ("The Holt-Winters Method for Forecasting Malnutrition Cases in
+  Hospitals: A Time Series Analysis Approach", 2023).
+keywords:
+  - time series forecasting
+  - Holt-Winters
+  - exponential smoothing
+  - SARIMA
+  - malnutrition
+  - healthcare analytics
