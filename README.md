@@ -153,7 +153,7 @@ Full command transcripts are in [`results/transcripts/`](results/transcripts).
 
 Only the **monthly aggregate** is published. The underlying inpatient
 workbooks carry patient names, medical-record numbers and ward identifiers,
-so they stay private — 11 of the 13 raw files contained patient-identifying
+so they stay private — 12 of the 14 raw workbooks contained patient-identifying
 fields. The reasoning, and the law it follows, is written up in
 [`docs/data-ethics.md`](docs/data-ethics.md).
 
