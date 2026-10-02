@@ -1,0 +1,25 @@
+thesis window available : 2013-11-01 .. 2020-07-01
+thesis Table 4.1        : train 69 (2013-01..2018-09), test 22 (2018-10..2020-07)
+this reproduction       : train 61 (2013-11-01..2018-11-01), test 20 (2018-12-01..2020-07-01)
+missing vs thesis       : 10 months (2013-01..2013-10) absent from the surviving file
+
+/home/heisenberg/.local/venvs/kuliah-portfolio/lib64/python3.14/site-packages/statsmodels/tsa/holtwinters/model.py:1065: ConvergenceWarning: Optimization failed to converge. Check mle_retvals.
+  res = self._optimize_parameters(res, use_brute, method, minimize_kwargs)
+                        model mae_reproduced mae_thesis mae_delta rmse_reproduced rmse_thesis smape_reproduced mase_reproduced
+                        Naive          40.15          -         -           46.61           -            45.56            0.72
+      Holt-Winters (additive)          44.66      26.94     17.72           52.16       38.57            48.38            0.80
+               Seasonal naive          44.70          -         -           50.28           -            48.36            0.80
+                    Simple ES          46.47      41.78      4.69           52.97       48.52            50.41            0.83
+             Double ES (Holt)          57.93      38.92     19.01           68.01       45.30            57.26            1.04
+Holt-Winters (multiplicative)          60.52          -         -           71.64           -            57.82            1.08
+
+Reading the table:
+  * Absolute errors do NOT match the thesis (Table 4.2). The training window is
+    10 months shorter and the missing months move the seasonal indices, so the
+    numbers are not expected to line up. That is a limitation, not a bug.
+  * The thesis' comparative claim survives: Holt-Winters is the best of the
+    exponential-smoothing family - Simple ES and Double ES both do worse.
+  * The thesis' absolute claim does not survive an added baseline: the
+    Holt-Winters MAE here is within 0.1 of the seasonal-naive forecast, and
+    both are beaten by a naive (repeat-last-value) forecast, which the
+    original study never benchmarked against.

@@ -1,0 +1,23 @@
+         actual  published_forecast  reproduced_forecast  reproduced_preoutage_forecast  ci_low  ci_high  published_error  reproduced_error  reproduced_preoutage_error
+2020-08     NaN                 NaN                  NaN                          76.12     NaN      NaN              NaN               NaN                         NaN
+2020-09     NaN                 NaN                  NaN                          64.08     NaN      NaN              NaN               NaN                         NaN
+2020-10     NaN                 NaN                  NaN                          87.89     NaN      NaN              NaN               NaN                         NaN
+2020-11     NaN                 NaN                  NaN                          29.57     NaN      NaN              NaN               NaN                         NaN
+2020-12     NaN                 NaN                  NaN                          15.11     NaN      NaN              NaN               NaN                         NaN
+2021-01     7.0               63.22                17.59                          25.00   -5.96   199.11            56.22             10.59                       18.00
+2021-02    22.0               46.77                26.46                          33.85  -29.08   176.93            24.77              4.46                       11.85
+2021-03   131.0               39.25                20.35                          27.68  -35.07   164.75           -91.75           -110.65                     -103.32
+2021-04   193.0               58.39                32.97                          40.23  -11.93   178.27          -134.61           -160.03                     -152.77
+2021-05    32.0               61.25                34.38                          41.69  -26.24   183.85            29.25              2.38                        9.69
+2021-06    46.0               50.78                16.09                          23.42  -35.25   179.82             4.78            -29.91                      -22.58
+2021-07    79.0               63.51                39.33                          46.70  -39.70   189.19           -15.49            -39.67                      -32.30
+2021-08   130.0               95.06                61.43                            NaN    3.34   217.68           -34.94            -68.57                         NaN
+2021-09   155.0               83.73                51.11                            NaN   -4.02   199.56           -71.27           -103.89                         NaN
+2021-10   126.0               88.44                71.60                            NaN  -13.17   206.52           -37.56            -54.40                         NaN
+2021-11   105.0               45.35                21.69                            NaN  -55.18   169.65           -59.65            -83.31                         NaN
+2021-12   129.0               29.47                 9.07                            NaN  -74.13   155.26           -99.53           -119.93                         NaN
+
+published (thesis)       MAE  54.99  RMSE  66.21  sMAPE  72.68%  band=inaccurate  CI covered 11/12
+reproduced (train to 2020-12) MAE  65.65  RMSE  81.77  sMAPE  91.31%  band=inaccurate
+reproduced (train to 2020-07, pre-outage) MAE  72.17  RMSE  82.69  sMAPE 102.49%  band=inaccurate
+  figure -> results/figures/07_2021_validation.png

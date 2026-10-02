@@ -1,0 +1,14 @@
+                        model   mae  rmse   mape smape mase
+                        Naive 27.96 45.97  57.56 40.19 0.54
+                    Simple ES 29.96 46.86  58.92 42.66 0.58
+             Double ES (Holt) 30.30 47.02  60.03 43.10 0.59
+Holt-Winters (multiplicative) 30.36 44.40  63.71 46.61 0.59
+        Holt-Winters (damped) 35.60 48.80  77.93 62.89 0.69
+      Holt-Winters (additive) 35.66 48.82  78.65 62.62 0.69
+                         Mean 55.95 60.50 188.35 75.97 1.09
+                 Linear trend 64.34 68.99 204.36 82.19 1.25
+               Seasonal naive 71.88 84.63 182.05 95.77 1.39
+  figure -> results/figures/06_walk_forward.png
+  figure -> results/figures/05_mae_by_model.png
+
+walk-forward winner: Naive

@@ -1,0 +1,23 @@
+series   : 2013-11-01 .. 2021-12-01 (n=98)
+train    : 2013-11-01 .. 2019-12-01 (n=74)
+holdout  : 2020-01-01 .. 2021-12-01 (n=24)
+
+                        model   mae  rmse   mape smape mase  mape_band
+                        Naive 39.88 54.71  75.64 61.74 0.77 inaccurate
+                    Simple ES 46.22 51.56 144.21 68.43 0.90 inaccurate
+             Double ES (Holt) 47.46 53.03 164.84 68.65 0.92 inaccurate
+        Holt-Winters (damped) 49.41 57.98 164.78 69.53 0.96 inaccurate
+Holt-Winters (multiplicative) 49.52 57.55 172.27 69.08 0.96 inaccurate
+      Holt-Winters (additive) 51.96 60.28 179.40 70.85 1.01 inaccurate
+                         Mean 57.10 63.10 203.27 75.91 1.11 inaccurate
+               Seasonal naive 64.71 78.25 204.94 77.97 1.25 inaccurate
+                 Linear trend 82.01 91.33 298.51 88.51 1.59 inaccurate
+
+  figure -> results/figures/01_series_overview.png
+  figure -> results/figures/02_decomposition.png
+  figure -> results/figures/03_seasonal_profile.png
+  figure -> results/figures/04_holdout_forecasts.png
+  figure -> results/figures/05_mae_by_model.png
+  figure -> results/figures/05_rmse_by_model.png
+best model by MAE : Naive  (MAE 39.88)
+seasonal-naive MAE: 64.71  ->  skill score +38.4%
